@@ -168,7 +168,50 @@ const Window = (props: WindowProps) => {
             )
       }}
       onDragStop={(e, d) => {
-        setState({ ...state, x: d.x, y: d.y });
+        setState({ ...state, x: d.x, y: export interface WindowState {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface TrafficProps {
+  onClose?: () => void;
+  onMinimize?: () => void;
+  onMaximize?: () => void;
+}
+
+export interface WindowProps {
+  title?: string;
+  children?: unknown;
+  initialState?: Partial<WindowState>;
+  trafficProps?: TrafficProps;
+}
+
+export function clampY(d: { y: number }): number {
+  return Math.max(0, d.y);
+}
+
+export function AppWindow(props?: WindowProps): { state: WindowState; onDragStop: (d: { x: number; y: number }) => void } {
+  const state: WindowState = {
+    x: props?.initialState?.x ?? 0,
+    y: props?.initialState?.y ?? 0,
+    width: props?.initialState?.width ?? 400,
+    height: props?.initialState?.height ?? 300,
+  };
+
+  const currentState = { ...state };
+
+  return {
+    state: currentState,
+    onDragStop: (d: { x: number; y: number }) => {
+      currentState.x = d.x;
+      currentState.y = Math.max(0, d.y);
+    },
+  };
+}
+
+export default AppWindow; });
       }}
       onResizeStop={(e, direction, ref, delta, position) => {
         setState({
