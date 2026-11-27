@@ -54,6 +54,18 @@ export default function Spotlight({
   useClickOutside(spotlightRef, toggleSpotlight, [btnRef]);
 
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        toggleSpotlight();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [toggleSpotlight]);
+
+  useEffect(() => {
     updateAppList();
   }, [searchText]);
 
