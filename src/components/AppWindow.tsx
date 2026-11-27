@@ -168,7 +168,7 @@ const Window = (props: WindowProps) => {
             )
       }}
       onDragStop={(e, d) => {
-        setState({ ...state, x: d.x, y: d.y });
+        setState({ ...state, x: d.x, y: Math.max(0, d.y) });
       }}
       onResizeStop={(e, direction, ref, delta, position) => {
         setState({
