@@ -2,7 +2,7 @@ export default function Battery() {
   const batteryState = useBattery();
 
   const width = () => {
-    return 0.1 + batteryState.level * 0.96;
+    return Math.min(0.1 + batteryState.level * 0.96, 1.0);
   };
 
   const color = () => {
